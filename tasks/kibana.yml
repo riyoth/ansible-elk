@@ -1,0 +1,18 @@
+- name: Install Kibana
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - kibana
+    - nginx
+
+- name: Start Kibana
+  service: name=kibana state=started enabled=yes
+  become: yes
+
+- name: create Kibana site
+  template: src=kibana/nginx-site.j2 dest=/etc/nginx/sites-enabled/site
+
+- name: Start Nginx
+  service: name=kibana state=restarted enabled=yes
+  become: yes

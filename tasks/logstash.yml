@@ -1,0 +1,19 @@
+- name: Install Logstash
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - logstash
+
+- name: Add beats input
+  template: src=logstash/02-beats-input.conf.j2 dest=/etc/logstash/conf.d/02-beats-input.conf
+- name: Add beats input
+  template: src=logstash/03-syslog-input.conf.j2 dest=/etc/logstash/conf.d/03-syslog-input.conf
+- name: Add Syslog filter
+  template: src=logstash/10-syslog-filter.conf.j2 dest=/etc/logstash/conf.d/10-syslog-filter.conf
+- name: Add ElasticSearch output
+  template: src=logstash/30-elasticsearch-output.conf.j2 dest=/etc/logstash/conf.d/30-elasticsearch-output.conf
+
+- name: Start logstash
+  service: name=logstash state=started enabled=yes
+  become: yes

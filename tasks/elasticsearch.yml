@@ -1,0 +1,11 @@
+- name: Install Utility
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - openjdk-8-jdk
+    - elasticsearch
+
+- name: Start Elasticsearch
+  service: name=elasticsearch state=started enabled=yes
+  become: yes

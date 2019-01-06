@@ -1,0 +1,6 @@
+---
+# tasks file for ansible-elk
+- include: repos.yml
+- include: elasticsearch.yml
+- include: kibana.yml
+- include: logstash.yml
